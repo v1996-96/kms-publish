@@ -9,7 +9,7 @@ ARG NODE_ENV
 ENV NODE_ENV ${NODE_ENV}
 WORKDIR /app
 COPY --from=git /app .
-RUN npm install
+RUN npm ci
 RUN npm run build
 EXPOSE 8080
 ENTRYPOINT ["node", "./build/server.js"]
