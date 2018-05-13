@@ -1,6 +1,6 @@
 FROM microsoft/aspnetcore-build:2.0 AS build-env
 WORKDIR /app
-RUN git clone https://gitlab.com/v1996-96/kms.git .
+RUN git clone https://github.com/v1996-96/kms.git .
 COPY appsettings.json .
 RUN dotnet restore
 RUN dotnet publish -c Release -o dist
