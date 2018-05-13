@@ -1,6 +1,6 @@
 FROM alpine/git AS git
 WORKDIR /app
-RUN git clone https://github.com/v1996-96/kms-backend.git .
+RUN git clone git://github.com/v1996-96/kms-backend.git .
 
 FROM postgres:latest
 RUN mkdir -p "$PGDATA" && chmod 700 "$PGDATA"

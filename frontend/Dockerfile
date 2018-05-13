@@ -1,6 +1,6 @@
 FROM alpine/git AS git
 WORKDIR /app
-RUN git clone https://github.com/v1996-96/kms-frontend.git .
+RUN git clone git://github.com/v1996-96/kms-frontend.git .
 
 FROM node:latest
 ARG API_HOSTNAME
