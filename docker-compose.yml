@@ -1,0 +1,64 @@
+version: '3'
+
+volumes:
+  attachments:
+    driver: local
+  node_modules:
+    driver: local
+  pgdata:
+    driver: local
+
+services:
+  proxy:
+    restart: always
+    container_name: proxy
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "5000:5000"
+    links:
+      - frontend
+      - backend
+
+  frontend:
+    restart: always
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - API_HOSTNAME=http://127.0.0.1:5000/api
+    volumes:
+      - node_modules:/app/node_modules
+    expose:
+       - 8080
+
+  backend:
+    restart: always
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file: ./backend/.env
+    volumes:
+      - attachments:/app/wwwroot/attachments
+    links:
+      - database
+    depends_on:
+      - database
+    expose:
+       - 5000
+
+  database:
+    restart: always
+    container_name: database
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file: ./database/.env
+    expose:
+      - 5432
